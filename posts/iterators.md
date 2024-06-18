@@ -2,6 +2,7 @@
 
 I'll use Ghidra 11.0.2 for reversing, all binaries are built on Linux x86_64. Doesn't matter which disassembler you use, Binja, IDA, Ghidra, neither does the OS Windows, Linux or Mac doesn't matter either. So, if you want to follow along, feel free to use any setup you want. It helps to know a bare minimum about Rust. If you don't, at least you should know C :)
 
+
 # Introduction
 
 A common scheme you see in malware and firmware is XOR encryption. Although 
@@ -184,7 +185,26 @@ We'll break it down:
 - `local_28` is the next element in the iterator. You can see this because of `local_28 = next<u8>`
 - when an iterator has no next element, that is, the iterator reached the end, it will return `None`
 
-`None` is part of an enum called `Option`, as well as `Some`. The `next()` function returns an option. If there is another element, you'll get a `Some(x)` where `x` is the value. If there's nothing else left you get `None`.
+You might find `None` being something you are not familiar with. To explain what `None` is, we first need to understand the `enum` type in Rust. This type can be used just like a C enum, but I can do a lot more. In C, you would have something like:
+
+```c
+enum Level {
+  LOW,
+  MEDIUM,
+  HIGH
+};
+```
+
+In Rust, you can, among other things, assign values to enum items. For example:
+
+```rust
+pub enum Option<T> {
+    None,
+    Some(T),
+}
+```
+
+Here, `T` describes the type, for example, we could have `Option<String>`, `Option<u32>`, etc. The enum you can see above is the `Option` enum, a standard enum that comes with Rust. You can find this everywhere in Rust programs. In the case of the iterator, if the iterator can return a value (there is a *next* element), it will return `Some(T)`. The `Some` tells us that we got *some* value back. If the iterator is not able to yield anymore items, for example, if a list is iterated and the end is reached, we would get `None` back.
 
 - the `local_28 != (Option<&mut u8>0x0)` checks if the next element is `None`, this serves to determine when to stop looping with `while`.
 
@@ -797,6 +817,10 @@ The other cases are if the size is less than 16, and especially when the size is
 # Conclusion
 
 As we were able to determine, debug builds and release builds are vastly different. Debug builds feature multiple nested functions in the case of iterators. Here, we just started digging until we reached the bottom. A basic understanding of Rust and functional programming helped us get a better grasp of what is going on. I don't see a shortcut when it comes to reversing the iterators in the debug build. However, for release builds, where to iterators are converted to loops, it seems going for the cases `length < 8` simplifies things, at least with regards to the simple XOR encryption we were analyzing. I'm probably going to do more of these posts, so stay tuned.
+
+# Acknowledgements
+
+Thanks to @cxiao for reading this and giving me feedback :)
 
 # References
 
