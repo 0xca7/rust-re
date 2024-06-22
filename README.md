@@ -1,5 +1,8 @@
 # Rust RE
 
+![logo](logo/rre_small.png "")
+
+
 ## Iterators
 
 Simple XOR encryption with iterators.
