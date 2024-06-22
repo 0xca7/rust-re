@@ -1,13 +1,23 @@
 # Prerequisites
 
-I'll use Ghidra 11.0.2 for reversing, all binaries are built on Linux x86_64. Doesn't matter which disassembler you use, Binja, IDA, Ghidra, neither does the OS Windows, Linux or Mac doesn't matter either. So, if you want to follow along, feel free to use any setup you want. It helps to know a bare minimum about Rust. If you don't, at least you should know C :)
+I'll use Ghidra 11.0.2 for reversing, all binaries are built on Linux x86_64. Doesn't matter which disassembler you use, Binja, IDA, Ghidra, neither does the OS Windows, Linux or Mac, doesn't matter either. So, if you want to follow along, feel free to use any setup you want. It helps to know a bare minimum about Rust. If you don't, at least you should know C :)
 
+For cargo and rustc, I have the following versions:
+
+```
+[~]$ cargo --version
+cargo 1.78.0 (54d8815d0 2024-03-26)
+[~]$ rustc --version
+rustc 1.78.0 (9b00956e5 2024-04-29)
+```
+
+All prebuilt executables for this post can be found in my git repository `rust-re` in the `prebuilt` folder. I put them all in zip file `iterators_prebuilt.zip`.
 
 # Introduction
 
 A common scheme you see in malware and firmware is XOR encryption. Although 
 weak and sparking furious debates if it should even be called *encryption*,
-it is often used to make analysis harder. In malware it's often used to hide
+it is often used to make analysis harder/annoying. In malware it's often used to hide
 strings, in firmware I've seen it used to encrypt whole blobs or even SPI
 communications.
 
@@ -90,7 +100,7 @@ I compiled two versions, a `debug` and a `release` build. The debug build
 contains symbols, names and everything else you want to have from debug build.
 
 For the `release` build, I specified it should be stripped [1]. This is the
-optimized build that you'd actually ship. 
+build that you'd actually ship. 
 
 Now here's a little catch: When you build your Rust project with `cargo build` you get the debug build, not the release build. As such, it can happen that you get hold of a debug binary instead of a release binary. I will cover both cases.
 
