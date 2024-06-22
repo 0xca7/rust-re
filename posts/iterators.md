@@ -11,7 +11,7 @@ cargo 1.78.0 (54d8815d0 2024-03-26)
 rustc 1.78.0 (9b00956e5 2024-04-29)
 ```
 
-All prebuilt executables for this post can be found in my git repository `rust-re` in the `prebuilt` folder. I put them all in zip file `iterators_prebuilt.zip`.
+All prebuilt executables for this post can be found in my git repository **rust-re** (https://github.com/0xca7/rust-re) in the `prebuilt` folder. I put them all in zip file `iterators_prebuilt.zip`.
 
 # Introduction
 
